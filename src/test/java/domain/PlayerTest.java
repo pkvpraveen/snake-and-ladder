@@ -25,8 +25,6 @@ public class PlayerTest {
     @Before
     public void setUp() {
         player = new Player("PlayerName");
-        player.setDice(dice);
-        player.setBoard(board);
         simulateBoard();
     }
 
@@ -38,22 +36,22 @@ public class PlayerTest {
     @Test
     public void shouldNotEnterTheBoardIfDiceDidNotRollOne() {
         when(dice.roll()).thenReturn(2);
-        player.play();
+        player.play(dice, board);
         assertNull(player.getPosition());
     }
 
     @Test
     public void shouldEnterTheBoardWhenTheDiceRollsOne() {
         when(dice.roll()).thenReturn(1);
-        player.play();
+        player.play(dice, board);
         assertEquals(1, player.getPosition().intValue());
     }
 
     @Test
     public void shouldUpdateThePositionOnBoardWhenTheDiceRoll() {
         when(dice.roll()).thenReturn(1).thenReturn(6);
-        player.play();
-        player.play();
+        player.play(dice, board);
+        player.play(dice, board);
         assertEquals(7, player.getPosition().intValue());
         verify(board).positionOnBoard(1);
         verify(board).positionOnBoard(7);
@@ -63,7 +61,7 @@ public class PlayerTest {
     public void shouldNotGoOutOfTheBoard() {
         player.setPosition(96);
         when(dice.roll()).thenReturn(6);
-        player.play();
+        player.play(dice, board);
         assertEquals(96, player.getPosition().intValue());
     }
 

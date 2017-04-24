@@ -3,15 +3,9 @@ package domain;
 public class Player {
     private String name;
     private Integer position;
-    private Dice dice = new Dice();
-    private Board board = new Board();
 
     public Player(String playerName) {
         this.name = playerName;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     public String getName() {
@@ -26,11 +20,7 @@ public class Player {
         return position;
     }
 
-    public void setDice(Dice dice) {
-        this.dice = dice;
-    }
-
-    public void play() {
+    public void play(Dice dice, Board board) {
         int roll = dice.roll();
         System.out.println("Player " + this.name + " roll = " + roll);
         if (this.position != null) {
